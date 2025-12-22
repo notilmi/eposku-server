@@ -1,5 +1,6 @@
 package org.ilmi.eposkuserver.input.web;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.ilmi.eposkuserver.input.web.data.input.BuatProdukRequestDTO;
 import org.ilmi.eposkuserver.input.web.data.input.BuatTransaksiRequestDTO;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/produk")
+@Tag(name = "Produk", description = "API untuk mengelola produk")
 public class ProdukController {
 
     private final ProdukService produkService;

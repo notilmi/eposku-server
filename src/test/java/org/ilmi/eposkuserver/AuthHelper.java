@@ -66,4 +66,7 @@ public class AuthHelper {
         return new Header(AUTH_HEADER, BEARER + getToken());
     }
 
+    public void resetToken() {
+        this.sessionToken = null;
+    }
 }

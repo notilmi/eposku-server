@@ -1,5 +1,6 @@
 package org.ilmi.eposkuserver.input.web;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.ilmi.eposkuserver.input.web.data.input.LoginRequestDTO;
 import org.ilmi.eposkuserver.input.web.data.output.UserDTO;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "Authentication", description = "API untuk autentikasi pengguna")
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
@@ -32,7 +34,7 @@ public class AuthenticationController {
 
         var responseHeaders = new HttpHeaders();
 
-        responseHeaders.add(HttpHeaders.SET_COOKIE, sessionCookie.getValue());
+        responseHeaders.add(HttpHeaders.SET_COOKIE, sessionCookie.toString());
 
         return ResponseEntity.ok()
                 .headers(responseHeaders)
@@ -41,12 +43,14 @@ public class AuthenticationController {
 
     @GetMapping("/logout")
     public ResponseEntity<?> logout(
-            @CookieValue(name = "session_token") String token
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader
     ) {
+        var token = authorizationHeader.replace("Bearer ", "");
+
         var deleteCookie = authenticationService.logout(token);
 
         var responseHeaders = new HttpHeaders();
-        responseHeaders.add(HttpHeaders.SET_COOKIE, deleteCookie.getValue());
+        responseHeaders.add(HttpHeaders.SET_COOKIE, deleteCookie.toString());
 
         return ResponseEntity.ok()
                 .headers(responseHeaders)
