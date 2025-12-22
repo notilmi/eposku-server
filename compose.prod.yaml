@@ -27,6 +27,21 @@ services:
     networks:
       - eposku_network
 
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: eposku-server:prod
+    env_file:
+      - .env.prod
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+      - minio
+    networks:
+      - eposku_network
+
 volumes:
   minio_data:
     driver: local

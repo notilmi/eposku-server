@@ -1,5 +1,6 @@
 package org.ilmi.eposkuserver.input.web.data.output;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,11 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProdukSummaryDTO {
-    private String id;
-    private String nama;
+    @NotNull private Long id;
+    @NotNull private String nama;
     private String deskripsi;
-    private String harga;
-    private Integer stokSaatIni;
-    private Integer totalTransaksi;
-    private Double totalPendapatan;
+    @NotNull private String harga;
+    @NotNull private Integer stokSaatIni;
+    @NotNull private Integer totalTransaksi;
+    @NotNull private Double totalPendapatan;
 }

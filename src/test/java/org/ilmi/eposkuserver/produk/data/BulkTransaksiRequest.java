@@ -7,12 +7,10 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class ProdukRequest {
-    private String nama;
-    private String deskripsi;
-    private Double harga;
-    private Integer  stok;
-    private String image;
+@NoArgsConstructor
+public class BulkTransaksiRequest {
+    private Long produkId;
+    private Integer jumlah;
+    private Double diskon;
 }

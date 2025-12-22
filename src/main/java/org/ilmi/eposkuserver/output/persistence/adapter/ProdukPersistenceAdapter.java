@@ -8,9 +8,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProdukPersistenceAdapter {
-    List<@NonNull ProdukSummary> findAllProduk(Integer page, Integer size);
+    List<@NonNull ProdukSummary> findAllProduk();
+    List<@NonNull ProdukSummary> findAllProduk(@NonNull String keyword);
     Optional<Produk> findById(Long produkId);
+    List<@NonNull Produk> findAllByIds(List<Long> produkIds);
 
     Produk save(Produk produk);
+    List<Produk> saveAll(List<Produk> produkList);
     void delete(Produk produk);
 }

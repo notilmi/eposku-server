@@ -9,6 +9,7 @@ import org.ilmi.eposkuserver.domain.entity.PergerakanStok;
 import org.ilmi.eposkuserver.domain.entity.Transaksi;
 import org.ilmi.eposkuserver.exception.PergerakanStokNotFoundException;
 import org.ilmi.eposkuserver.exception.TransaksiNotFoundException;
+import org.ilmi.eposkuserver.output.persistence.entity.aggregate.UserUploadedFile;
 import org.jspecify.annotations.Nullable;
 
 import java.time.LocalDate;
@@ -21,25 +22,17 @@ import java.util.List;
 @NoArgsConstructor
 public class Produk extends Aggregate {
     private String nama;
-    @Nullable
-    private String deskripsi;
+    @Nullable private String deskripsi;
     private Double harga;
-    private List<PergerakanStok> pergerakanStok;
-    private List<Transaksi> transaksi;
+    @Nullable private String imageUrl;
+    private List<PergerakanStok> pergerakanStok = new ArrayList<>();
+    private List<Transaksi> transaksi = new ArrayList<>();
 
     public void addPergerakanStok(PergerakanStok stok) {
-        if (this.pergerakanStok == null) {
-            this.pergerakanStok = new ArrayList<>();
-        }
-
         this.pergerakanStok.add(stok);
     }
 
     public void addTransaksi(Transaksi transaksi) {
-
-        if (this.pergerakanStok == null) {
-            this.pergerakanStok = new ArrayList<>();
-        }
 
         this.transaksi.add(transaksi);
     }

@@ -25,12 +25,14 @@ public class ProdukApi {
 
     private final AuthHelper authHelper;
 
+    private final String sampleImageBase64 = ImageHelper.sampleImageBase64;
+
     @Autowired
     public ProdukApi(AuthHelper authHelper) {
         this.authHelper = authHelper;
     }
 
-    private WebTestClient client() {
+    public WebTestClient client() {
         return WebTestClient.bindToServer()
                 .baseUrl("http://localhost:" + port)
                 .defaultHeader(AuthHelper.AUTH_HEADER, AuthHelper.BEARER + authHelper.getToken())
@@ -55,6 +57,13 @@ public class ProdukApi {
                 .exchange();
     }
 
+    public WebTestClient.ResponseSpec searchProduk(String keyword) {
+        return client()
+                .get()
+                .uri(builder -> builder.path(PRODUK_PATH).queryParam("keyword", keyword).build())
+                .exchange();
+    }
+
     public WebTestClient.ResponseSpec buatProduk(
             String nama,
             String deskripsi,
@@ -69,7 +78,8 @@ public class ProdukApi {
                         nama,
                         deskripsi,
                         harga,
-                        stok
+                        stok,
+                        null
                 ))
                 .exchange();
     }
@@ -106,6 +116,13 @@ public class ProdukApi {
                 .exchange();
     }
 
+    public WebTestClient.ResponseSpec buatBulkTransaksi(List<BulkTransaksiRequest> request) {
+        return client()
+                .post()
+                .uri("/produk/transaksi")
+                .bodyValue(request)
+                .exchange();
+    }
 
     public WebTestClient.ResponseSpec buatTransaksi(Long produkId, Integer jumlah, Double diskon) {
         return client()

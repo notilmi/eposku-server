@@ -1,8 +1,10 @@
 package org.ilmi.eposkuserver.input.web.data.output;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.ilmi.eposkuserver.output.persistence.entity.aggregate.UserUploadedFile;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
@@ -11,11 +13,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProdukDTO {
-    private Long id;
-    private String nama;
-    @Nullable
+    @NotNull private Long id;
+    @NotNull private String nama;
     private String deskripsi;
-    private Double harga;
-    private List<PergerakanStokDTO> pergerakanStok;
-    private List<TransaksiDTO> transaksi;
+    private String imageUrl;
+    @NotNull private Double harga;
+    @NotNull private List<PergerakanStokDTO> pergerakanStok;
+    @NotNull private List<TransaksiDTO> transaksi;
 }

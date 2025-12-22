@@ -2,14 +2,12 @@ package org.ilmi.eposkuserver.input.web;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.ilmi.eposkuserver.input.web.data.input.BuatProdukRequestDTO;
-import org.ilmi.eposkuserver.input.web.data.input.BuatTransaksiRequestDTO;
-import org.ilmi.eposkuserver.input.web.data.input.RestokProdukRequestDTO;
-import org.ilmi.eposkuserver.input.web.data.input.UpdateProdukRequestDTO;
+import org.ilmi.eposkuserver.input.web.data.input.*;
 import org.ilmi.eposkuserver.input.web.data.output.ProdukDTO;
 import org.ilmi.eposkuserver.input.web.data.output.ProdukSummaryDTO;
 import org.ilmi.eposkuserver.input.web.data.output.mapper.ProdukDTOMapper;
 import org.ilmi.eposkuserver.service.ProdukService;
+import org.ilmi.eposkuserver.service.data.BulkCreateTransaksiCommand;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -33,10 +31,9 @@ public class ProdukController {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public List<ProdukSummaryDTO> getAllProduk(
-            @RequestParam(defaultValue = "0", required = false) int page,
-            @RequestParam(defaultValue = "10", required = false) int size
+            @RequestParam(required = false) String keyword
     ) {
-        var produkList = produkService.getAllProduk(page, size);
+        var produkList = produkService.getAllProduk(keyword);
 
         return produkList.stream()
                 .map(produkDTOMapper::toSummaryDTO)
@@ -63,7 +60,8 @@ public class ProdukController {
                 request.getNama(),
                 request.getDeskripsi(),
                 request.getHarga(),
-                request.getStok()
+                request.getStok(),
+                request.getImage()
         );
 
         return produkDTOMapper.toDTO(createdProduk);
@@ -79,7 +77,8 @@ public class ProdukController {
                 produkId,
                 request.getNama(),
                 request.getDeskripsi(),
-                request.getHarga()
+                request.getHarga(),
+                request.getImage()
         );
 
         return produkDTOMapper.toDTO(updatedProduk);
@@ -122,6 +121,28 @@ public class ProdukController {
         );
 
         return produkDTOMapper.toDTO(updatedProduk);
+    }
+
+    @PostMapping("/transaksi")
+    @ResponseBody
+    public List<ProdukDTO> buatTransaksiBulk(
+            @RequestBody @Valid List<BulkCreateTransaksiRequestDTO> request
+    ) {
+        var updatedProduk = produkService.bulkCreateTransaksi(
+                request.stream()
+                        .map(cmd ->
+                                BulkCreateTransaksiCommand.builder()
+                                        .produkId(cmd.getProdukId())
+                                        .jumlah(cmd.getJumlah())
+                                        .diskon(cmd.getDiskon())
+                                        .build()
+                        )
+                        .toList()
+        );
+
+        return updatedProduk.stream()
+                .map(produkDTOMapper::toDTO)
+                .toList();
     }
 
     @DeleteMapping("/{produkId}/transaksi/{transaksiId}")

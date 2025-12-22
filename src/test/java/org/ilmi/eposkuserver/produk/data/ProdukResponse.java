@@ -15,6 +15,8 @@ public class ProdukResponse {
     private String nama;
     @Nullable
     private String deskripsi;
+    @Nullable
+    private String imageUrl;
     private Double harga;
     private List<PergerakanStokResponse> pergerakanStok;
     private List<TransaksiResponse> transaksi;

@@ -22,4 +22,6 @@ public class BuatProdukRequestDTO {
     @NotNull(message = "Stok tidak boleh kosong")
     @Min(value = 0, message = "Stok tidak boleh negatif")
     private Integer stok;
+
+    private String image;
 }

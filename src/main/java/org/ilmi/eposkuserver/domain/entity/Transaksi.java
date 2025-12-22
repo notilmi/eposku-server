@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Transaksi extends Entity {
     private Integer jumlah;
-    private Double diskon;
+    private Double diskon = 0.0;
     private Double harga;
     private LocalDate tanggal;
 }

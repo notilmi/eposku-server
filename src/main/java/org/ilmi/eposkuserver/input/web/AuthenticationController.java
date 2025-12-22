@@ -3,6 +3,7 @@ package org.ilmi.eposkuserver.input.web;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.ilmi.eposkuserver.input.web.data.input.LoginRequestDTO;
+import org.ilmi.eposkuserver.input.web.data.output.MessageResponseDTO;
 import org.ilmi.eposkuserver.input.web.data.output.UserDTO;
 import org.ilmi.eposkuserver.security.CustomUserDetails;
 import org.ilmi.eposkuserver.service.AuthenticationService;
@@ -24,7 +25,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<@NonNull String> login(
+    @ResponseBody
+    public ResponseEntity<@NonNull MessageResponseDTO> login(
             @RequestBody @Valid LoginRequestDTO request
             ) {
         var sessionCookie = authenticationService.login(
@@ -38,11 +40,11 @@ public class AuthenticationController {
 
         return ResponseEntity.ok()
                 .headers(responseHeaders)
-                .body("Login successful");
+                .body(new MessageResponseDTO("Login successful"));
     }
 
     @GetMapping("/logout")
-    public ResponseEntity<?> logout(
+    public ResponseEntity<@NonNull MessageResponseDTO> logout(
             @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader
     ) {
         var token = authorizationHeader.replace("Bearer ", "");
@@ -54,7 +56,7 @@ public class AuthenticationController {
 
         return ResponseEntity.ok()
                 .headers(responseHeaders)
-                .body("Logout successful");
+                .body(new MessageResponseDTO("Logout successful"));
     }
 
     @GetMapping("/session")

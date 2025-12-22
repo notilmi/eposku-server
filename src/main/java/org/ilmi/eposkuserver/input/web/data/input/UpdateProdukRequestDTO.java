@@ -11,4 +11,5 @@ public class UpdateProdukRequestDTO {
     private String nama;
     private String deskripsi;
     private Double harga;
+    private String image;
 }

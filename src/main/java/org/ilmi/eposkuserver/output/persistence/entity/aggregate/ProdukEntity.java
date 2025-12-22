@@ -33,6 +33,9 @@ public class ProdukEntity implements Persistable<@NonNull Long> {
     @Column("harga")
     private Double harga;
 
+    @Column("image_url")
+    private String imageUrl;
+
     @MappedCollection(idColumn = "produk_id", keyColumn = "produk_key")
     private List<PergerakanStokEntity> pergerakanStok;
 
