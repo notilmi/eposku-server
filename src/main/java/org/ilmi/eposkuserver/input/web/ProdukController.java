@@ -6,6 +6,7 @@ import org.ilmi.eposkuserver.input.web.data.input.*;
 import org.ilmi.eposkuserver.input.web.data.output.ProdukDTO;
 import org.ilmi.eposkuserver.input.web.data.output.ProdukSummaryDTO;
 import org.ilmi.eposkuserver.input.web.data.output.mapper.ProdukDTOMapper;
+import org.ilmi.eposkuserver.output.persistence.projection.ProdukSummary;
 import org.ilmi.eposkuserver.service.ProdukService;
 import org.ilmi.eposkuserver.service.data.BulkCreateTransaksiCommand;
 import org.springframework.http.HttpStatus;
@@ -30,14 +31,10 @@ public class ProdukController {
     @GetMapping
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public List<ProdukSummaryDTO> getAllProduk(
+    public List<ProdukSummary> getAllProduk(
             @RequestParam(required = false) String keyword
     ) {
-        var produkList = produkService.getAllProduk(keyword);
-
-        return produkList.stream()
-                .map(produkDTOMapper::toSummaryDTO)
-                .toList();
+        return produkService.getAllProduk(keyword);
     }
 
     @GetMapping("/{produkId}")

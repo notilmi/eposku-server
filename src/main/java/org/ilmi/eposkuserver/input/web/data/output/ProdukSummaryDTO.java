@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jspecify.annotations.Nullable;
 
 @Data
 @AllArgsConstructor
@@ -11,7 +12,8 @@ import lombok.NoArgsConstructor;
 public class ProdukSummaryDTO {
     @NotNull private Long id;
     @NotNull private String nama;
-    private String deskripsi;
+    @Nullable private String deskripsi;
+    @Nullable private String imageUrl;
     @NotNull private String harga;
     @NotNull private Integer stokSaatIni;
     @NotNull private Integer totalTransaksi;

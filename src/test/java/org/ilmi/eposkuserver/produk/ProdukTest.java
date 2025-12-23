@@ -88,7 +88,6 @@ public class ProdukTest {
         var searchResult = produkApi.searchProduk("Buku");
         var searchResp = produkApi.getProdukSummaryFromResponse(searchResult);
 
-
         // Validate that at least 2 results are returned
         Assertions.assertNotNull(searchResp);
         Assertions.assertTrue(searchResp.size() >= 2);

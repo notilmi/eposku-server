@@ -11,36 +11,20 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ProdukRepository extends CrudRepository<@NonNull ProdukEntity, @NonNull Long> {
-    @Query("SELECT p.id AS id, p.nama AS nama, p.deskripsi AS deskripsi, p.harga AS harga, " +
-            // Change alias to match Record component 'stokSaatIni'
-            "(SELECT COALESCE(SUM(ps.jumlah_masuk - ps.jumlah_keluar), 0) " +
-            " FROM pergerakan_stok ps WHERE ps.produk_id = p.id) AS stokSaatIni, " +
-
-            // Change alias to match Record component 'totalTransaksi'
-            "(SELECT COALESCE(COUNT(t.id), 0) " +
-            " FROM transaksi t WHERE t.produk_id = p.id) AS totalTransaksi, " +
-
-            // Change alias to match Record component 'totalPendapatan'
-            "(SELECT COALESCE(SUM((p.harga * t.jumlah) * t.diskon), 0) " +
-            " FROM transaksi t WHERE t.produk_id = p.id) AS totalPendapatan " +
-
+    @Query("SELECT p.id AS id, p.nama AS nama, p.deskripsi AS deskripsi, p.harga AS harga, p.image_url as image_url, " +
+            // stock movement sum as INT
+            "(SELECT COALESCE(SUM(ps.jumlah_masuk - ps.jumlah_keluar), 0) FROM pergerakan_stok ps WHERE ps.produk_id = p.id) AS stok_saat_ini, " +
+            // total transactions as BIGINT/COUNT
+            "(SELECT COALESCE(COUNT(t.id), 0) FROM transaksi t WHERE t.produk_id = p.id) AS total_transaksi, " +
+            // total revenue as DOUBLE; use SUM(t.harga * t.jumlah * t.diskon)
+            "(SELECT COALESCE(SUM(t.harga * t.jumlah * t.diskon), 0) FROM transaksi t WHERE t.produk_id = p.id) AS total_pendapatan " +
             "FROM produk p")
     List<ProdukSummary> findAllBy();
 
-    @Query("SELECT p.id AS id, p.nama AS nama, p.deskripsi AS deskripsi, p.harga AS harga, " +
-            // Change alias to match Record component 'stokSaatIni'
-            "(SELECT COALESCE(SUM(ps.jumlah_masuk - ps.jumlah_keluar), 0) " +
-            " FROM pergerakan_stok ps WHERE ps.produk_id = p.id) AS stokSaatIni, " +
-
-            // Change alias to match Record component 'totalTransaksi'
-            "(SELECT COALESCE(COUNT(t.id), 0) " +
-            " FROM transaksi t WHERE t.produk_id = p.id) AS totalTransaksi, " +
-
-            // Change alias to match Record component 'totalPendapatan'
-            "(SELECT COALESCE(SUM((p.harga * t.jumlah) * t.diskon), 0) " +
-            " FROM transaksi t WHERE t.produk_id = p.id) AS totalPendapatan " +
-
-            "FROM produk p " +
-            "WHERE LOWER(p.nama) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    @Query("SELECT p.id AS id, p.nama AS nama, p.deskripsi AS deskripsi, p.harga AS harga, p.image_url as image_url, " +
+            "(SELECT COALESCE(SUM(ps.jumlah_masuk - ps.jumlah_keluar), 0) FROM pergerakan_stok ps WHERE ps.produk_id = p.id) AS stok_saat_ini, " +
+            "(SELECT COALESCE(COUNT(t.id), 0) FROM transaksi t WHERE t.produk_id = p.id) AS total_transaksi, " +
+            "(SELECT COALESCE(SUM(t.harga * t.jumlah * t.diskon), 0) FROM transaksi t WHERE t.produk_id = p.id) AS total_pendapatan " +
+            "FROM produk p WHERE LOWER(p.nama) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<ProdukSummary> searchAllBy(@Param("keyword") String keyword);
 }
