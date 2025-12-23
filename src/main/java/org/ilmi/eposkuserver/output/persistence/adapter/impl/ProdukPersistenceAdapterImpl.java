@@ -4,12 +4,13 @@ import org.ilmi.eposkuserver.domain.Produk;
 import org.ilmi.eposkuserver.output.persistence.adapter.ProdukPersistenceAdapter;
 import org.ilmi.eposkuserver.output.persistence.entity.aggregate.ProdukEntity;
 import org.ilmi.eposkuserver.output.persistence.mapper.ProdukMapper;
+import org.ilmi.eposkuserver.output.persistence.projection.DailyStatsSummary;
 import org.ilmi.eposkuserver.output.persistence.projection.ProdukSummary;
 import org.ilmi.eposkuserver.output.persistence.repository.ProdukRepository;
 import org.jspecify.annotations.NonNull;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -32,6 +33,16 @@ public class ProdukPersistenceAdapterImpl implements ProdukPersistenceAdapter {
     @Override
     public List<@NonNull ProdukSummary> findAllProduk(@NonNull String keyword) {
         return produkRepository.searchAllBy(keyword);
+    }
+
+    @Override
+    public DailyStatsSummary findDailyStats(LocalDate date) {
+        return produkRepository.findDailyStats(date);
+    }
+
+    @Override
+    public List<DailyStatsSummary> findMonthlyStats() {
+        return produkRepository.findMonthlyStats();
     }
 
     @Override

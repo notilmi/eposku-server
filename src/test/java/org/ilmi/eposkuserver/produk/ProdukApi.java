@@ -1,7 +1,10 @@
 package org.ilmi.eposkuserver.produk;
 
 import org.ilmi.eposkuserver.AuthHelper;
-import org.ilmi.eposkuserver.produk.data.*;
+import org.ilmi.eposkuserver.produk.data.input.*;
+import org.ilmi.eposkuserver.produk.data.output.DailyStatsResponse;
+import org.ilmi.eposkuserver.produk.data.output.ProdukResponse;
+import org.ilmi.eposkuserver.produk.data.output.ProdukSummaryResponse;
 import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,6 +58,34 @@ public class ProdukApi {
                 .get()
                 .uri(builder -> builder.path(PRODUK_PATH).queryParam("page", page).queryParam("size", size).build())
                 .exchange();
+    }
+
+    public WebTestClient.ResponseSpec getDailyStats() {
+        return client()
+                .get()
+                .uri("/produk/stats/daily")
+                .exchange();
+    }
+
+    public WebTestClient.ResponseSpec getMonthlyStats() {
+        return client()
+                .get()
+                .uri("/produk/stats/monthly")
+                .exchange();
+    }
+
+    public DailyStatsResponse getDailyStatsFromResponse(WebTestClient.ResponseSpec responseSpec) {
+        return responseSpec
+                .expectBody(DailyStatsResponse.class)
+                .returnResult()
+                .getResponseBody();
+    }
+
+    public List<DailyStatsResponse> getDailyStatsListFromResponse(WebTestClient.ResponseSpec responseSpec) {
+        return responseSpec
+                .expectBody(new ParameterizedTypeReference<@NonNull List<DailyStatsResponse>>() {})
+                .returnResult()
+                .getResponseBody();
     }
 
     public WebTestClient.ResponseSpec searchProduk(String keyword) {

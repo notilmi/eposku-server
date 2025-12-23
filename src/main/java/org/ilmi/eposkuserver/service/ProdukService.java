@@ -1,17 +1,23 @@
 package org.ilmi.eposkuserver.service;
 
 import org.ilmi.eposkuserver.domain.Produk;
+import org.ilmi.eposkuserver.output.persistence.projection.DailyStatsSummary;
 import org.ilmi.eposkuserver.output.persistence.projection.ProdukSummary;
 import org.ilmi.eposkuserver.service.data.BulkCreateTransaksiCommand;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface ProdukService {
     List<@NonNull ProdukSummary> getAllProduk(@Nullable String keyword);
 
     Produk getProdukById(Long produkId);
+
+    DailyStatsSummary getDailyStats(LocalDate date);
+
+    List<DailyStatsSummary> getMonthlyStats();
 
     Produk buatProduk(
             String nama, String deskripsi,

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.ilmi.eposkuserver.output.persistence.entity.aggregate.UserUploadedFile;
 import org.jspecify.annotations.Nullable;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -20,4 +21,6 @@ public class ProdukDTO {
     @NotNull private Double harga;
     @NotNull private List<PergerakanStokDTO> pergerakanStok;
     @NotNull private List<TransaksiDTO> transaksi;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

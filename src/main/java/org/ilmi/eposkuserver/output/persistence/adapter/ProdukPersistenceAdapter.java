@@ -1,15 +1,20 @@
 package org.ilmi.eposkuserver.output.persistence.adapter;
 
 import org.ilmi.eposkuserver.domain.Produk;
+import org.ilmi.eposkuserver.output.persistence.projection.DailyStatsSummary;
 import org.ilmi.eposkuserver.output.persistence.projection.ProdukSummary;
 import org.jspecify.annotations.NonNull;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 public interface ProdukPersistenceAdapter {
     List<@NonNull ProdukSummary> findAllProduk();
     List<@NonNull ProdukSummary> findAllProduk(@NonNull String keyword);
+    DailyStatsSummary findDailyStats(LocalDate date);
+    List<DailyStatsSummary> findMonthlyStats();
+
     Optional<Produk> findById(Long produkId);
     List<@NonNull Produk> findAllByIds(List<Long> produkIds);
 

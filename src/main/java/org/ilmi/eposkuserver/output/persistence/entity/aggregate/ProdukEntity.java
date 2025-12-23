@@ -7,12 +7,15 @@ import lombok.Setter;
 import org.ilmi.eposkuserver.output.persistence.entity.PergerakanStokEntity;
 import org.ilmi.eposkuserver.output.persistence.entity.TransaksiEntity;
 import org.jspecify.annotations.NonNull;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -41,6 +44,14 @@ public class ProdukEntity implements Persistable<@NonNull Long> {
 
     @MappedCollection(idColumn = "produk_id", keyColumn = "produk_key")
     private List<TransaksiEntity> transaksi;
+
+    @CreatedDate
+    @Column("created_at")
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    @Column("updated_at")
+    private LocalDateTime updatedAt;
 
      @Override
     public boolean isNew() {

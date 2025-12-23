@@ -1,18 +1,13 @@
 package org.ilmi.eposkuserver.produk;
 
 import org.ilmi.eposkuserver.AuthHelper;
-import org.ilmi.eposkuserver.produk.data.*;
-import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.net.URI;
-import java.time.LocalDate;
-import java.util.List;
 
 @Lazy
 @Component

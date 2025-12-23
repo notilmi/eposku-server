@@ -4,8 +4,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.ilmi.eposkuserver.input.web.data.input.*;
 import org.ilmi.eposkuserver.input.web.data.output.ProdukDTO;
-import org.ilmi.eposkuserver.input.web.data.output.ProdukSummaryDTO;
 import org.ilmi.eposkuserver.input.web.data.output.mapper.ProdukDTOMapper;
+import org.ilmi.eposkuserver.output.persistence.projection.DailyStatsSummary;
 import org.ilmi.eposkuserver.output.persistence.projection.ProdukSummary;
 import org.ilmi.eposkuserver.service.ProdukService;
 import org.ilmi.eposkuserver.service.data.BulkCreateTransaksiCommand;
@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -35,6 +36,28 @@ public class ProdukController {
             @RequestParam(required = false) String keyword
     ) {
         return produkService.getAllProduk(keyword);
+    }
+
+    @GetMapping("/stats/daily")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public DailyStatsSummary getMonthlyStats(
+            @RequestParam(required = false) String date
+    ) {
+        // Parse date
+        var localDate = (date != null && !date.isBlank()) ?
+                LocalDate.parse(date) : LocalDate.now();
+
+        return produkService.getDailyStats(localDate);
+    }
+
+    @GetMapping("/stats/monthly")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public List<DailyStatsSummary> getMonthlyStats(
+    ) {
+
+        return produkService.getMonthlyStats();
     }
 
     @GetMapping("/{produkId}")

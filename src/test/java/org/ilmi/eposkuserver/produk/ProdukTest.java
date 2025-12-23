@@ -1,9 +1,9 @@
 package org.ilmi.eposkuserver.produk;
 
-import org.ilmi.eposkuserver.produk.data.BulkTransaksiRequest;
-import org.ilmi.eposkuserver.produk.data.ProdukRequest;
-import org.ilmi.eposkuserver.produk.data.ProdukResponse;
-import org.ilmi.eposkuserver.produk.data.ProdukSummaryResponse;
+import org.ilmi.eposkuserver.produk.data.input.BulkTransaksiRequest;
+import org.ilmi.eposkuserver.produk.data.input.ProdukRequest;
+import org.ilmi.eposkuserver.produk.data.output.ProdukResponse;
+import org.ilmi.eposkuserver.produk.data.output.ProdukSummaryResponse;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -98,6 +98,28 @@ public class ProdukTest {
                     produk.getNama().toLowerCase().contains("buku")
             );
         }
+    }
+
+    @Test
+    void givenMultipleProduk_statsEndpointShouldBeAccessible() {
+        // Create multiple produk
+        produkApi.buatProduk("Buku Tulis", "Buku Tulis Bergaris", 5000.0, 20);
+        produkApi.buatProduk("Buku Gambar", "Buku Gambar Polos", 7000.0, 15);
+
+        // Access daily stats endpoint
+        var dailyStatsResp = produkApi.getDailyStats();
+
+        // Validate response status
+        var dailyStats = produkApi.getDailyStatsFromResponse(dailyStatsResp);
+        Assertions.assertNotNull(dailyStats.getTotalPendapatan());
+        Assertions.assertNotNull(dailyStats.getTotalTransaksi());
+        Assertions.assertNotNull(dailyStats.getTanggal());
+
+        var statsResp = produkApi.getMonthlyStats();
+        var statsList = produkApi.getDailyStatsListFromResponse(statsResp);
+
+        Assertions.assertNotNull(statsList);
+        Assertions.assertTrue(statsList.size() >= 0);
     }
 
     @Test

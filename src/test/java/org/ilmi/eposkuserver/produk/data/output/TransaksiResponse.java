@@ -1,16 +1,15 @@
-package org.ilmi.eposkuserver.produk.data;
+package org.ilmi.eposkuserver.produk.data.output;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BulkTransaksiRequest {
-    private Long produkId;
+public class TransaksiResponse {
+    private Long id;
     private Integer jumlah;
     private Double diskon;
+    private Double harga;
 }

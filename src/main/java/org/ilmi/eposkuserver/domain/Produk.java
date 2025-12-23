@@ -13,6 +13,7 @@ import org.ilmi.eposkuserver.output.persistence.entity.aggregate.UserUploadedFil
 import org.jspecify.annotations.Nullable;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,9 @@ public class Produk extends Aggregate {
     @Nullable private String imageUrl;
     private List<PergerakanStok> pergerakanStok = new ArrayList<>();
     private List<Transaksi> transaksi = new ArrayList<>();
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public void addPergerakanStok(PergerakanStok stok) {
         this.pergerakanStok.add(stok);

@@ -1,4 +1,4 @@
-package org.ilmi.eposkuserver.produk.data;
+package org.ilmi.eposkuserver.produk.data.input;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateProdukRequest {
+public class ProdukRequest {
     private String nama;
     private String deskripsi;
     private Double harga;
+    private Integer  stok;
+    private String image;
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.ilmi.eposkuserver.domain.base.Entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -17,4 +18,6 @@ public class Transaksi extends Entity {
     private Double diskon = 0.0;
     private Double harga;
     private LocalDate tanggal;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

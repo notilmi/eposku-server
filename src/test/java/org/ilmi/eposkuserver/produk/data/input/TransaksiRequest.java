@@ -1,4 +1,4 @@
-package org.ilmi.eposkuserver.produk.data;
+package org.ilmi.eposkuserver.produk.data.input;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

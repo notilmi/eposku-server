@@ -7,6 +7,7 @@ import org.ilmi.eposkuserver.domain.entity.Transaksi;
 import org.ilmi.eposkuserver.exception.Base64ParseException;
 import org.ilmi.eposkuserver.exception.ProdukNotFoundException;
 import org.ilmi.eposkuserver.output.persistence.adapter.ProdukPersistenceAdapter;
+import org.ilmi.eposkuserver.output.persistence.projection.DailyStatsSummary;
 import org.ilmi.eposkuserver.output.persistence.projection.ProdukSummary;
 import org.ilmi.eposkuserver.output.persistence.repository.UserUploadedFileRepository;
 import org.ilmi.eposkuserver.service.ProdukService;
@@ -48,6 +49,16 @@ public class ProdukServiceImpl implements ProdukService {
 
         return produkPersistenceAdapter.findById(produkId)
                 .orElseThrow(ProdukNotFoundException::new);
+    }
+
+    @Override
+    public DailyStatsSummary getDailyStats(LocalDate date) {
+        return produkPersistenceAdapter.findDailyStats(date);
+    }
+
+    @Override
+    public List<DailyStatsSummary> getMonthlyStats() {
+        return produkPersistenceAdapter.findMonthlyStats();
     }
 
     @Override
